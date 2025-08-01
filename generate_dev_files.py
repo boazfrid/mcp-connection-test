@@ -676,13 +676,15 @@ def main():
     
     total_files = 0
     for directory in directories:
-        if Path(directory).exists():
-            print(f"\n📁 Directory: {directory}")
-            files = create_files_for_directory(directory)
-            total_files += len(files)
-            print(f"   Created {len(files)} files")
-        else:
-            print(f"⚠️  Directory {directory} does not exist, skipping...")
+        directory_path = Path(directory)
+        if not directory_path.exists():
+            print(f"📁 Creating directory: {directory}")
+            directory_path.mkdir(parents=True, exist_ok=True)
+        
+        print(f"\n📁 Directory: {directory}")
+        files = create_files_for_directory(directory)
+        total_files += len(files)
+        print(f"   Created {len(files)} files")
     
     print("\n" + "=" * 50)
     print(f"✅ Successfully created {total_files} files across {len(directories)} directories")
